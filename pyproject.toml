@@ -1,0 +1,22 @@
+[project]
+name = "ai-council"
+version = "0.1.0"
+description = "LLM Council - 多 AI 模型討論工具"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "gradio>=4.0.0",
+    "openai>=1.0.0",
+    "tavily-python>=0.5.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+ai-council = "main:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.8.0",
+]
