@@ -47,14 +47,14 @@ def create_app() -> gr.Blocks:
                 with gr.Row():
                     rounds_input = gr.Number(
                         label="討論輪數",
-                        value=3,
+                        value=config.DEFAULT_ROUNDS,
                         minimum=1,
                         maximum=10,
                         precision=0,
                     )
                     max_tokens_input = gr.Number(
                         label="每次回答 Token 上限",
-                        value=500,
+                        value=config.DEFAULT_MAX_TOKENS,
                         minimum=100,
                         maximum=2000,
                         precision=0,

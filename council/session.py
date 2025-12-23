@@ -429,7 +429,7 @@ class Session:
         async for chunk in self.moderator.final_summary(
             topic=self.topic,
             full_history=self.history,
-            max_tokens=1000,
+            max_tokens=config.DEFAULT_SUMMARY_MAX_TOKENS,
         ):
             content_parts.append(chunk)
             yield SessionEvent(

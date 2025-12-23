@@ -214,7 +214,7 @@ class Moderator:
         self,
         topic: str,
         full_history: list[Message],
-        max_tokens: int = 1000,  # 總結需要更多 tokens
+        max_tokens: int = config.DEFAULT_SUMMARY_MAX_TOKENS,  # 總結需要更多 tokens
         on_search: Callable[[str, dict], None] | None = None,
         max_retries: int = 5,
     ) -> AsyncIterator[str]:

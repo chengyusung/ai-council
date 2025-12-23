@@ -3,6 +3,8 @@
 from enum import Enum
 from pydantic import BaseModel, Field
 
+import config
+
 
 class Role(str, Enum):
     """訊息角色"""
@@ -53,8 +55,8 @@ class ModeratorConfig(BaseModel):
 class SessionConfig(BaseModel):
     """會議設定"""
     topic: str  # 討論主題
-    total_rounds: int = 3  # 總輪數
-    max_tokens: int = 500  # 每次回答的 token 上限
+    total_rounds: int = config.DEFAULT_ROUNDS  # 總輪數
+    max_tokens: int = config.DEFAULT_MAX_TOKENS  # 每次回答的 token 上限
     moderator: ModeratorConfig
     members: list[MemberConfig]
 

@@ -16,11 +16,11 @@ OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 
 # 預設可選模型清單
 AVAILABLE_MODELS = [
-    {"id": "openai/gpt-5.2", "name": "GPT-5.2"},
-    {"id": "anthropic/claude-sonnet-4.5", "name": "Claude Sonnet 4.5"},
-    {"id": "google/gemini-3-pro-preview", "name": "Gemini 3 Pro"},
+    # {"id": "openai/gpt-5.2", "name": "GPT-5.2"},
+    # {"id": "anthropic/claude-sonnet-4.5", "name": "Claude Sonnet 4.5"},
+    # {"id": "google/gemini-3-pro-preview", "name": "Gemini 3 Pro"},
+    # {"id": "x-ai/grok-4.1-fast", "name": "Grok 4.1 Fast"},
     {"id": "google/gemini-3-flash-preview", "name": "Gemini 3 Flash"},
-    {"id": "x-ai/grok-4.1-fast", "name": "Grok 4.1 Fast"},
     {"id": "deepseek/deepseek-v3.2", "name": "DeepSeek V3.2"},
     {"id": "moonshotai/kimi-k2-thinking", "name": "Kimi K2 Thinking"},
     {"id": "allenai/olmo-3.1-32b-think:free", "name": "Olmo 3.1 32b Think"},
@@ -34,9 +34,10 @@ AVAILABLE_MODELS = [
 ]
 
 # 預設設定
-DEFAULT_MAX_TOKENS = 500
+DEFAULT_MAX_TOKENS = 1000
 DEFAULT_ROUNDS = 3
 DEFAULT_TEMPERATURE = 0.7
+DEFAULT_SUMMARY_MAX_TOKENS = 1000  # 最終總結的 token 上限
 
 # 隨機名字列表（用於匿名化模型名稱）
 RANDOM_NAMES = [
