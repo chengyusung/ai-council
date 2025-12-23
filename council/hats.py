@@ -99,6 +99,7 @@ class HatManager:
     """管理討論中的帽子分配"""
 
     hat_counts: dict[HatColor, int] = field(default_factory=lambda: {h: 0 for h in HatColor})
+    available_hats: list[HatColor] = field(default_factory=list)  # 追蹤可用帽子
 
     # 第一位發言者可用的帽子（不能黑帽，因為還沒有東西可以批判）
     FIRST_SPEAKER_HATS: list[HatColor] = field(
@@ -118,25 +119,34 @@ class HatManager:
 
     def assign_hat(self, is_first_speaker: bool = False) -> HatColor:
         """
-        加權隨機分配帽子。
+        隨機分配帽子，確保每種帽子都會輪流出現。
 
         - 第一位發言者：只能是 WHITE 或 GREEN
-        - 其他發言者：全部五種，但少用的帽子權重更高
+        - 其他發言者：全部五種
+        - 5 種帽子都出現過後才會重置
 
         Returns:
             分配的帽子顏色
         """
-        candidates = self.FIRST_SPEAKER_HATS if is_first_speaker else self.MEMBER_HATS
+        # 如果沒有可用帽子，重置
+        if not self.available_hats:
+            self.available_hats = list(self.MEMBER_HATS)
 
-        # 加權：少用的帽子權重更高
-        max_count = max(self.hat_counts.get(h, 0) for h in candidates) + 1
-        weights = []
-        for hat in candidates:
-            count = self.hat_counts.get(hat, 0)
-            weight = max_count - count + 1  # 反向權重
-            weights.append(weight)
+        if is_first_speaker:
+            # 第一發言者：只能從 available_hats 中選 WHITE 或 GREEN
+            candidates = [h for h in self.available_hats if h in self.FIRST_SPEAKER_HATS]
+            if not candidates:
+                # 如果 available_hats 中沒有白/綠，先重置
+                self.available_hats = list(self.MEMBER_HATS)
+                candidates = [h for h in self.available_hats if h in self.FIRST_SPEAKER_HATS]
+        else:
+            candidates = list(self.available_hats)
 
-        selected = random.choices(candidates, weights=weights, k=1)[0]
+        # 隨機選取
+        selected = random.choice(candidates)
+
+        # 從可用列表移除
+        self.available_hats.remove(selected)
 
         # 記錄使用次數
         self.hat_counts[selected] = self.hat_counts.get(selected, 0) + 1
@@ -161,5 +171,6 @@ class HatManager:
         return " | ".join(lines)
 
     def reset(self):
-        """重置帽子計數"""
+        """重置帽子計數和可用帽子列表"""
         self.hat_counts = {h: 0 for h in HatColor}
+        self.available_hats = list(self.MEMBER_HATS)
